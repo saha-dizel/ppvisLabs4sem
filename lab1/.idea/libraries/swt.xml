@@ -4,6 +4,8 @@
       <root url="jar://$PROJECT_DIR$/swtlib/swt.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/swtlib/src.zip!/" />
+    </SOURCES>
   </library>
 </component>
