@@ -1,26 +1,24 @@
 package com.testProgram;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
-
 public class Program {
-    public static void main(String argv[])
+    public static void main(String[] args)
     {
         /* this is display and shell for main window */
         Display mainDisplay = new Display();
         Shell mainShell = new Shell(mainDisplay);
 
         /* this is layout with specs for main window */
-        GridLayout mainGridLayout = new GridLayout(10,true);
+        GridLayout mainGridLayout = new GridLayout(10, true);
         mainGridLayout.horizontalSpacing = 10;
         mainGridLayout.marginBottom = 20;
         mainGridLayout.marginTop = 15;
         mainGridLayout.marginWidth = 10;
+        mainGridLayout.verticalSpacing = 10;
 
         /* setting layout for main shell */
         mainShell.setLayout(mainGridLayout);
@@ -29,9 +27,18 @@ public class Program {
         GridData gridBlock = new GridData(SWT.FILL, SWT.FILL, true, true);
         gridBlock.horizontalSpan = 2;
 
-        /* grid data for 2-column elements */
+        /* grid data for double column elements */
         GridData doubleColumnElem = new GridData (SWT.FILL, SWT.FILL, true, false);
         doubleColumnElem.horizontalSpan = 2;
+        doubleColumnElem.heightHint = 28;
+
+        /* grid data for single column elements */
+        GridData singleColumnElem = new GridData (SWT.FILL, SWT.FILL, true, false);
+        singleColumnElem.horizontalSpan = 1;
+        singleColumnElem.heightHint = 28;
+
+        GridData tableElem = new GridData(SWT.FILL, SWT.FILL, true, true);
+        tableElem.horizontalSpan = 2;
 
         Group block1 = new Group(mainShell, SWT.NONE);
         block1.setText("Block 1");
@@ -41,34 +48,95 @@ public class Program {
         inputLineB1.setLayoutData(doubleColumnElem);
         Button addToComboB1 = new Button(block1, SWT.PUSH);
         addToComboB1.setLayoutData(doubleColumnElem);
-        addToComboB1.setText("ADD");
-        Combo comboB1 = new Combo(block1, SWT.NONE);
+        addToComboB1.setText("Add to the combo");
+        Combo comboB1 = new Combo(block1, SWT.DROP_DOWN);
         comboB1.setLayoutData(doubleColumnElem);
 
         Group block2 = new Group(mainShell, SWT.NONE);
         block2.setText("Block 2");
         block2.setLayoutData(gridBlock);
         block2.setLayout(new GridLayout(2, true));
+        Text inputLineB2 = new Text(block2, SWT.NONE);
+        inputLineB2.setLayoutData(doubleColumnElem);
+        Button nameSecondButtonB2 = new Button(block2, SWT.PUSH);
+        nameSecondButtonB2.setLayoutData(singleColumnElem);
+        nameSecondButtonB2.setText("Name the right button");
+        Button swapButtonNamesB2 = new Button(block2, SWT.PUSH);
+        swapButtonNamesB2.setLayoutData(singleColumnElem);
+        swapButtonNamesB2.setText("Swap button names");
 
         Group block3 = new Group(mainShell, SWT.NONE);
         block3.setText("Block 3");
         block3.setLayoutData(gridBlock);
         block3.setLayout(new GridLayout(2, true));
+        Text inputLineB3 = new Text(block3, SWT.NONE);
+        inputLineB3.setLayoutData(doubleColumnElem);
+        Button toggleRadioB3 = new Button(block3, SWT.PUSH);
+        toggleRadioB3.setLayoutData(doubleColumnElem);
+        toggleRadioB3.setText("Toggle selected radio button");
+        Button radio1B3 = new Button(block3, SWT.RADIO);
+        radio1B3.setLayoutData(doubleColumnElem);
+        radio1B3.setText("RB1");
+        Button radio2B3 = new Button(block3, SWT.RADIO);
+        radio2B3.setLayoutData(doubleColumnElem);
+        radio2B3.setText("RB2");
+        Button radio3B3 = new Button(block3, SWT.RADIO);
+        radio3B3.setLayoutData(doubleColumnElem);
+        radio3B3.setText("RB3");
 
         Group block4 = new Group(mainShell, SWT.NONE);
         block4.setText("Block 4");
         block4.setLayoutData(gridBlock);
         block4.setLayout(new GridLayout(2, true));
+        Text inputLineB4 = new Text(block4, SWT.NONE);
+        inputLineB4.setLayoutData(doubleColumnElem);
+        Button toggleCheckB4 = new Button(block4, SWT.PUSH);
+        toggleCheckB4.setLayoutData(doubleColumnElem);
+        toggleCheckB4.setText("Toggle selected check button");
+        Button check1B4 = new Button(block4, SWT.CHECK);
+        check1B4.setLayoutData(doubleColumnElem);
+        check1B4.setText("CB1");
+        Button check2B4 = new Button(block4, SWT.CHECK);
+        check2B4.setLayoutData(doubleColumnElem);
+        check2B4.setText("CB2");
+        Button check3B4 = new Button(block4, SWT.CHECK);
+        check3B4.setLayoutData(doubleColumnElem);
+        check3B4.setText("CB3");
 
         Group block5 = new Group(mainShell, SWT.NONE);
         block5.setText("Block 5");
         block5.setLayoutData(gridBlock);
         block5.setLayout(new GridLayout(2, true));
+        Text inputLineB5 = new Text(block5, SWT.NONE);
+        inputLineB5.setLayoutData(doubleColumnElem);
+        Button addToTableB5 = new Button(block5, SWT.PUSH);
+        addToTableB5.setLayoutData(doubleColumnElem);
+        addToTableB5.setText("Add to the first column");
+        Table tableB5 = new Table(block5, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        tableB5.setLayoutData(tableElem);
+        tableB5.setLinesVisible(true);
+        String[] titles = {"Title1", "Title2"};
+        for (int loopIndex = 0; loopIndex < titles.length; loopIndex++) {
+            TableColumn column = new TableColumn(tableB5, SWT.NONE);
+            column.setText(titles[loopIndex]);
+        }
+        for(int loopIndex = 0; loopIndex < 3; loopIndex++) {
+            TableItem item = new TableItem(tableB5, SWT.NONE);
+            item.setText(0, "Item" + loopIndex);
+        }
+        for(int loopIndex = 0; loopIndex < titles.length; loopIndex++) {
+            tableB5.getColumn(loopIndex).setWidth(125);
+        }
+        Button moveLeftB5 = new Button(block5, SWT.PUSH);
+        moveLeftB5.setLayoutData(singleColumnElem);
+        moveLeftB5.setText("<<");
+        Button moveRightB5 = new Button(block5, SWT.PUSH);
+        moveRightB5.setLayoutData(singleColumnElem);
+        moveRightB5.setText(">>");
 
         /* creating our main window */
         mainShell.open();
-        while(!mainShell.isDisposed())
-        {
+        while(!mainShell.isDisposed()) {
             if (!mainDisplay.readAndDispatch())
                 mainDisplay.sleep();
         }
