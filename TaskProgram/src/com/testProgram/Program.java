@@ -1,6 +1,8 @@
 package com.testProgram;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -37,13 +39,20 @@ public class Program {
         singleColumnElem.horizontalSpan = 1;
         singleColumnElem.heightHint = 28;
 
+        /* grid data for table */
         GridData tableElem = new GridData(SWT.FILL, SWT.FILL, true, true);
         tableElem.horizontalSpan = 2;
+
+        /* message box */
+        MessageBox error = new MessageBox(mainShell, SWT.ICON_ERROR | SWT.OK);
+        error.setText("ERROR!");
+        error.setMessage("Whoops! Looks like you've made something wrong!");
 
         Group block1 = new Group(mainShell, SWT.NONE);
         block1.setText("Block 1");
         block1.setLayoutData(gridBlock);
         block1.setLayout(new GridLayout(2, true));
+        /* creating elements for block1 */
         Text inputLineB1 = new Text(block1, SWT.NONE);
         inputLineB1.setLayoutData(doubleColumnElem);
         Button addToComboB1 = new Button(block1, SWT.PUSH);
@@ -51,11 +60,24 @@ public class Program {
         addToComboB1.setText("Add to the combo");
         Combo comboB1 = new Combo(block1, SWT.DROP_DOWN);
         comboB1.setLayoutData(doubleColumnElem);
+        /* writing logic for block1 */
+        addToComboB1.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                String textToCombo = inputLineB1.getText();
+                if (comboB1.indexOf(textToCombo) == -1) {
+                    comboB1.add(textToCombo);
+                } else {
+                    error.open();
+                }
+            }
+        });
 
         Group block2 = new Group(mainShell, SWT.NONE);
         block2.setText("Block 2");
         block2.setLayoutData(gridBlock);
         block2.setLayout(new GridLayout(2, true));
+        /* creating elements for block2 */
         Text inputLineB2 = new Text(block2, SWT.NONE);
         inputLineB2.setLayoutData(doubleColumnElem);
         Button nameSecondButtonB2 = new Button(block2, SWT.PUSH);
@@ -64,11 +86,28 @@ public class Program {
         Button swapButtonNamesB2 = new Button(block2, SWT.PUSH);
         swapButtonNamesB2.setLayoutData(singleColumnElem);
         swapButtonNamesB2.setText("Swap button names");
+        /* writing logic for block2 */
+        nameSecondButtonB2.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                String newName4Button2 = inputLineB2.getText();
+                swapButtonNamesB2.setText(newName4Button2);
+            }
+        });
+        swapButtonNamesB2.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                String tempNameButton1 = nameSecondButtonB2.getText();
+                nameSecondButtonB2.setText(swapButtonNamesB2.getText());
+                swapButtonNamesB2.setText(tempNameButton1);
+            }
+        });
 
         Group block3 = new Group(mainShell, SWT.NONE);
         block3.setText("Block 3");
         block3.setLayoutData(gridBlock);
         block3.setLayout(new GridLayout(2, true));
+        /* creating elements for block3 */
         Text inputLineB3 = new Text(block3, SWT.NONE);
         inputLineB3.setLayoutData(doubleColumnElem);
         Button toggleRadioB3 = new Button(block3, SWT.PUSH);
@@ -83,11 +122,39 @@ public class Program {
         Button radio3B3 = new Button(block3, SWT.RADIO);
         radio3B3.setLayoutData(doubleColumnElem);
         radio3B3.setText("RB3");
+        /* writing logic for block3 */
+        toggleRadioB3.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                String nameCheck = inputLineB3.getText();
+                switch (nameCheck.toUpperCase()){
+                    case "RB1":
+                        radio1B3.setSelection(true);
+                        radio2B3.setSelection(false);
+                        radio3B3.setSelection(false);
+                        break;
+                    case "RB2":
+                        radio1B3.setSelection(false);
+                        radio2B3.setSelection(true);
+                        radio3B3.setSelection(false);
+                        break;
+                    case "RB3":
+                        radio1B3.setSelection(false);
+                        radio2B3.setSelection(false);
+                        radio3B3.setSelection(true);
+                        break;
+                    default:
+                        error.open();
+                        break;
+                }
+            }
+        });
 
         Group block4 = new Group(mainShell, SWT.NONE);
         block4.setText("Block 4");
         block4.setLayoutData(gridBlock);
         block4.setLayout(new GridLayout(2, true));
+        /* creating elements for block4 */
         Text inputLineB4 = new Text(block4, SWT.NONE);
         inputLineB4.setLayoutData(doubleColumnElem);
         Button toggleCheckB4 = new Button(block4, SWT.PUSH);
@@ -102,11 +169,33 @@ public class Program {
         Button check3B4 = new Button(block4, SWT.CHECK);
         check3B4.setLayoutData(doubleColumnElem);
         check3B4.setText("CB3");
+        /* writing logic for block4 */
+        toggleCheckB4.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                String nameCheck = inputLineB4.getText();
+                switch (nameCheck.toUpperCase()){
+                    case "CB1":
+                        check1B4.setSelection(true);
+                        break;
+                    case "CB2":
+                        check2B4.setSelection(true);
+                        break;
+                    case "CB3":
+                        check3B4.setSelection(true);
+                        break;
+                    default:
+                        error.open();
+                        break;
+                }
+            }
+        });
 
         Group block5 = new Group(mainShell, SWT.NONE);
         block5.setText("Block 5");
         block5.setLayoutData(gridBlock);
         block5.setLayout(new GridLayout(2, true));
+        /* creating elements for block5 */
         Text inputLineB5 = new Text(block5, SWT.NONE);
         inputLineB5.setLayoutData(doubleColumnElem);
         Button addToTableB5 = new Button(block5, SWT.PUSH);
@@ -133,6 +222,13 @@ public class Program {
         Button moveRightB5 = new Button(block5, SWT.PUSH);
         moveRightB5.setLayoutData(singleColumnElem);
         moveRightB5.setText(">>");
+        /* writing logic for block5 */
+        addToTableB5.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                
+            }
+        });
 
         /* creating our main window */
         mainShell.open();
