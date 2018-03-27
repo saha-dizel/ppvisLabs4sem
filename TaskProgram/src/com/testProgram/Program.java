@@ -201,7 +201,7 @@ public class Program {
         Button addToTableB5 = new Button(block5, SWT.PUSH);
         addToTableB5.setLayoutData(doubleColumnElem);
         addToTableB5.setText("Add to the first column");
-        Table tableB5 = new Table(block5, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        Table tableB5 = new Table(block5, SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION);
         tableB5.setLayoutData(tableElem);
         tableB5.setLinesVisible(true);
         String[] titles = {"Title1", "Title2"};
@@ -226,7 +226,33 @@ public class Program {
         addToTableB5.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e){
-                
+                String newTableItem = inputLineB5.getText();
+                TableItem item = new TableItem(tableB5, SWT.NONE);
+                item.setText(0, newTableItem);
+            }
+        });
+        moveRightB5.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                int itemIndex = tableB5.getSelectionIndex();
+                TableItem item = tableB5.getItem(itemIndex);
+                if (!item.getText(0).equals(""))
+                {
+                    item.setText(1, item.getText(0));
+                    item.setText(0, "");
+                }
+            }
+        });
+        moveLeftB5.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e){
+                int itemIndex = tableB5.getSelectionIndex();
+                TableItem item = tableB5.getItem(itemIndex);
+                if (!item.getText(1).equals(""))
+                {
+                    item.setText(0, item.getText(1));
+                    item.setText(1, "");
+                }
             }
         });
 
