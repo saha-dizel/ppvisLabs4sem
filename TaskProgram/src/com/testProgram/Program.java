@@ -34,6 +34,10 @@ public class Program {
         doubleColumnElem.horizontalSpan = 2;
         doubleColumnElem.heightHint = 28;
 
+        /* grid data for 5-column elements */
+        GridData fiveColumnElem = new GridData (SWT.FILL, SWT.FILL, true, false);
+        fiveColumnElem.horizontalSpan = 5;
+
         /* grid data for single column elements */
         GridData singleColumnElem = new GridData (SWT.FILL, SWT.FILL, true, false);
         singleColumnElem.horizontalSpan = 1;
@@ -47,6 +51,13 @@ public class Program {
         MessageBox error = new MessageBox(mainShell, SWT.ICON_ERROR | SWT.OK);
         error.setText("ERROR!");
         error.setMessage("Whoops! Looks like you've made something wrong!");
+
+        Button startMovingElem = new Button(mainShell, SWT.PUSH);
+        startMovingElem.setText("START");
+        startMovingElem.setLayoutData(fiveColumnElem);
+        Button stopMovingElem = new Button(mainShell, SWT.PUSH);
+        stopMovingElem.setText("STOP");
+        stopMovingElem.setLayoutData(fiveColumnElem);
 
         Group block1 = new Group(mainShell, SWT.NONE);
         block1.setText("Block 1");
@@ -176,13 +187,25 @@ public class Program {
                 String nameCheck = inputLineB4.getText();
                 switch (nameCheck.toUpperCase()){
                     case "CB1":
-                        check1B4.setSelection(true);
+                        if (check1B4.getSelection() == false) {
+                            check1B4.setSelection(true);
+                        } else {
+                            check1B4.setSelection(false);
+                        }
                         break;
                     case "CB2":
-                        check2B4.setSelection(true);
+                        if (check2B4.getSelection() == false) {
+                            check2B4.setSelection(true);
+                        } else {
+                            check2B4.setSelection(false);
+                        }
                         break;
                     case "CB3":
-                        check3B4.setSelection(true);
+                        if (check3B4.getSelection() == false) {
+                            check3B4.setSelection(true);
+                        } else {
+                            check3B4.setSelection(false);
+                        }
                         break;
                     default:
                         error.open();
