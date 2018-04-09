@@ -340,6 +340,9 @@ public class Program {
                 switch(queueNum) {
                     case 0:
                         System.out.println(1);
+                        /* listB2.add(listB1.pollLast());
+                         * block2.layout();
+                         * Thread.sleep(2000); */
                         break;
                     case 1:
                         System.out.println(2);
