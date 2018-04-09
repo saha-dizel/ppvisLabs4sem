@@ -7,6 +7,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
+import java.io.Console;
+import java.util.LinkedList;
+
 public class Program {
     public static void main(String[] args)
     {
@@ -279,6 +282,61 @@ public class Program {
             }
         });
 
+        /* 'kay, here's the plan
+         * you'll still need 5 queues, in order to know what element to move
+         * setParent solves your problems with moving element to other group, just don't forget to add .layout();
+         * adding to the end of queue, removing from the beginning, classic
+         * so, here we go! */
+
+        /* five linked lists for our queues */
+        LinkedList<Control> listB1 = new LinkedList<Control>();
+        listB1.add(inputLineB1);
+        listB1.add(addToComboB1);
+        listB1.add(comboB1);
+        LinkedList<Control> listB2 = new LinkedList<Control>();
+        listB2.add(inputLineB2);
+        listB2.add(swapButtonNamesB2);
+        listB2.add(nameSecondButtonB2);
+        LinkedList<Control> listB3 = new LinkedList<Control>();
+        listB3.add(inputLineB3);
+        listB3.add(toggleRadioB3);
+        listB3.add(radio1B3);
+        listB3.add(radio2B3);
+        listB3.add(radio3B3);
+        LinkedList<Control> listB4 = new LinkedList<Control>();
+        listB4.add(inputLineB4);
+        listB4.add(toggleCheckB4);
+        listB4.add(check1B4);
+        listB4.add(check2B4);
+        listB4.add(check3B4);
+        LinkedList<Control> listB5 = new LinkedList<Control>();
+        listB5.add(inputLineB5);
+        listB5.add(addToTableB5);
+        listB5.add(tableB5);
+        listB5.add(moveLeftB5);
+        listB5.add(moveRightB5);
+        /* adding elements to beginning, moving from end, it's important after all */
+
+        final boolean[] setMovingElemState = {false};
+
+        startMovingElem.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                setMovingElemState[0] = true;
+            }
+        });
+
+        stopMovingElem.addSelectionListener(new SelectionAdapter() {
+            @Override
+        public void widgetSelected(SelectionEvent e) {
+                setMovingElemState[0] = false;
+            }
+        });
+
+        while (setMovingElemState[0] == true) {
+            System.out.println("IT WORKS!");
+        }
+        
         /* creating our main window */
         mainShell.open();
         while(!mainShell.isDisposed()) {
