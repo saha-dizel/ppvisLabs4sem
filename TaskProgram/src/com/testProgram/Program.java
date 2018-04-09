@@ -334,9 +334,30 @@ public class Program {
         });
 
         while (setMovingElemState[0] == true) {
-            System.out.println("IT WORKS!");
+            System.out.print("IT WORKS! ");
+            int queueNum = 0;
+            while (queueNum < 5 && setMovingElemState[0] == true) {
+                switch(queueNum) {
+                    case 0:
+                        System.out.println(1);
+                        break;
+                    case 1:
+                        System.out.println(2);
+                        break;
+                    case 2:
+                        System.out.println(3);
+                        break;
+                    case 3:
+                        System.out.println(4);
+                        break;
+                    case 4:
+                        System.out.println(5);
+                        break;
+                }
+                queueNum++;
+            }
         }
-        
+
         /* creating our main window */
         mainShell.open();
         while(!mainShell.isDisposed()) {
