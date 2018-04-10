@@ -7,7 +7,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-import java.io.Console;
 import java.util.LinkedList;
 
 public class Program {
@@ -190,21 +189,21 @@ public class Program {
                 String nameCheck = inputLineB4.getText();
                 switch (nameCheck.toUpperCase()){
                     case "CB1":
-                        if (check1B4.getSelection() == false) {
+                        if (!check1B4.getSelection()) {
                             check1B4.setSelection(true);
                         } else {
                             check1B4.setSelection(false);
                         }
                         break;
                     case "CB2":
-                        if (check2B4.getSelection() == false) {
+                        if (!check2B4.getSelection()) {
                             check2B4.setSelection(true);
                         } else {
                             check2B4.setSelection(false);
                         }
                         break;
                     case "CB3":
-                        if (check3B4.getSelection() == false) {
+                        if (!check3B4.getSelection()) {
                             check3B4.setSelection(true);
                         } else {
                             check3B4.setSelection(false);
@@ -290,76 +289,113 @@ public class Program {
 
         /* five linked lists for our queues */
         LinkedList<Control> listB1 = new LinkedList<Control>();
-        listB1.add(inputLineB1);
-        listB1.add(addToComboB1);
         listB1.add(comboB1);
+        listB1.add(addToComboB1);
+        listB1.add(inputLineB1);
         LinkedList<Control> listB2 = new LinkedList<Control>();
-        listB2.add(inputLineB2);
-        listB2.add(swapButtonNamesB2);
         listB2.add(nameSecondButtonB2);
+        listB2.add(swapButtonNamesB2);
+        listB2.add(inputLineB2);
         LinkedList<Control> listB3 = new LinkedList<Control>();
-        listB3.add(inputLineB3);
-        listB3.add(toggleRadioB3);
-        listB3.add(radio1B3);
-        listB3.add(radio2B3);
         listB3.add(radio3B3);
+        listB3.add(radio2B3);
+        listB3.add(radio1B3);
+        listB3.add(toggleRadioB3);
+        listB3.add(inputLineB3);
         LinkedList<Control> listB4 = new LinkedList<Control>();
-        listB4.add(inputLineB4);
-        listB4.add(toggleCheckB4);
-        listB4.add(check1B4);
-        listB4.add(check2B4);
         listB4.add(check3B4);
+        listB4.add(check2B4);
+        listB4.add(check1B4);
+        listB4.add(toggleCheckB4);
+        listB4.add(inputLineB4);
         LinkedList<Control> listB5 = new LinkedList<Control>();
-        listB5.add(inputLineB5);
-        listB5.add(addToTableB5);
-        listB5.add(tableB5);
-        listB5.add(moveLeftB5);
         listB5.add(moveRightB5);
-        /* adding elements to beginning, moving from end, it's important after all */
+        listB5.add(moveLeftB5);
+        listB5.add(tableB5);
+        listB5.add(addToTableB5);
+        listB5.add(inputLineB5);
+        /* adding elements to end, moving from beginning, classic */
 
-        final boolean[] setMovingElemState = {false};
+        final boolean[] setMoveState = {false};
+
+        Thread moveElemThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (setMoveState[0]) {
+                    System.out.println("IT WORKS! ");
+                    int queueNum = 0;
+                    while (queueNum < 5 && setMoveState[0]) {
+                        switch (queueNum) {
+                            case 0:
+                                System.out.println(1);
+                                listB1.peekFirst().setParent(block2);
+                                listB2.add(listB1.pollFirst());
+                                mainShell.layout();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                /* listB2.add(listB1.pollLast());
+                                 * block2.layout();
+                                 * Thread.sleep(2000); */
+                                break;
+                            case 1:
+                                System.out.println(2);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 2:
+                                System.out.println(3);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 3:
+                                System.out.println(4);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 4:
+                                System.out.println(5);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                        }
+                        queueNum++;
+                    }
+                }
+            }
+        }){
+
+        };
 
         startMovingElem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                setMovingElemState[0] = true;
+                setMoveState[0] = true;
+                moveElemThread.start();
             }
         });
 
         stopMovingElem.addSelectionListener(new SelectionAdapter() {
             @Override
         public void widgetSelected(SelectionEvent e) {
-                setMovingElemState[0] = false;
+                setMoveState[0] = false;
+                moveElemThread.interrupt();
             }
         });
-
-        while (setMovingElemState[0] == true) {
-            System.out.print("IT WORKS! ");
-            int queueNum = 0;
-            while (queueNum < 5 && setMovingElemState[0] == true) {
-                switch(queueNum) {
-                    case 0:
-                        System.out.println(1);
-                        /* listB2.add(listB1.pollLast());
-                         * block2.layout();
-                         * Thread.sleep(2000); */
-                        break;
-                    case 1:
-                        System.out.println(2);
-                        break;
-                    case 2:
-                        System.out.println(3);
-                        break;
-                    case 3:
-                        System.out.println(4);
-                        break;
-                    case 4:
-                        System.out.println(5);
-                        break;
-                }
-                queueNum++;
-            }
-        }
 
         /* creating our main window */
         mainShell.open();
@@ -368,5 +404,10 @@ public class Program {
                 mainDisplay.sleep();
         }
         mainDisplay.dispose();
+    }
+
+    private void threading()
+    {
+
     }
 }
