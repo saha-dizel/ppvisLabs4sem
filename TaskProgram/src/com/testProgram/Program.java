@@ -46,7 +46,7 @@ public class Program {
         singleColumnElem.heightHint = 28;
 
         /* grid data for table */
-        GridData tableElem = new GridData(SWT.FILL, SWT.FILL, true, true);
+        GridData tableElem = new GridData(SWT.FILL, SWT.FILL, true, false);
         tableElem.horizontalSpan = 2;
 
         /* message box */
@@ -318,7 +318,7 @@ public class Program {
 
         final boolean[] setMoveState = {false};
 
-        Thread moveElemThread = new Thread(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 while (setMoveState[0]) {
@@ -328,58 +328,92 @@ public class Program {
                         switch (queueNum) {
                             case 0:
                                 System.out.println(1);
-                                listB1.peekFirst().setParent(block2);
-                                listB2.add(listB1.pollFirst());
-                                mainShell.layout();
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                /* listB2.add(listB1.pollLast());
-                                 * block2.layout();
-                                 * Thread.sleep(2000); */
+                                Display.getDefault().syncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listB1.peekFirst().setParent(block2);
+                                        listB2.add(listB1.pollFirst());
+                                        mainShell.layout();
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                                 break;
                             case 1:
                                 System.out.println(2);
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Display.getDefault().syncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listB2.peekFirst().setParent(block3);
+                                        listB3.add(listB2.pollFirst());
+                                        mainShell.layout();
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                                 break;
                             case 2:
                                 System.out.println(3);
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Display.getDefault().syncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listB3.peekFirst().setParent(block4);
+                                        listB4.add(listB3.pollFirst());
+                                        mainShell.layout();
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                                 break;
                             case 3:
                                 System.out.println(4);
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Display.getDefault().syncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listB4.peekFirst().setParent(block5);
+                                        listB5.add(listB4.pollFirst());
+                                        mainShell.layout();
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                                 break;
                             case 4:
                                 System.out.println(5);
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Display.getDefault().syncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listB5.peekFirst().setParent(block1);
+                                        listB1.add(listB5.pollFirst());
+                                        mainShell.layout();
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                                 break;
                         }
                         queueNum++;
                     }
                 }
             }
-        }){
-
         };
+
+        Thread moveElemThread = new Thread(runnable){};
 
         startMovingElem.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -391,9 +425,10 @@ public class Program {
 
         stopMovingElem.addSelectionListener(new SelectionAdapter() {
             @Override
-        public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(SelectionEvent e) {
                 setMoveState[0] = false;
                 moveElemThread.interrupt();
+                System.out.println(moveElemThread.getState());
             }
         });
 
@@ -404,10 +439,5 @@ public class Program {
                 mainDisplay.sleep();
         }
         mainDisplay.dispose();
-    }
-
-    private void threading()
-    {
-
     }
 }
